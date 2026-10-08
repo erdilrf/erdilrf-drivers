@@ -9,10 +9,14 @@ This library is published in a **dedicated repository** so it can be indexed:
 
 **→ [github.com/erdilrf/erdilrf-lrf-arduino](https://github.com/erdilrf/erdilrf-lrf-arduino)**
 
-Search for `ERDILRF_LRF` in **Tools → Manage Libraries…**, or with PlatformIO:
+Search for `ERDILRF_LRF` in **Tools → Manage Libraries…**
+
+With **PlatformIO**, install from Git — verified working by actually resolving and compiling it
+(version `0.2.0+sha.6f2a7f4`). The registry-name form `erdilrf/ERDILRF_LRF` does **not** work yet,
+because the library is not in the PlatformIO Registry:
 
 ```ini
-lib_deps = erdilrf/ERDILRF_LRF
+lib_deps = https://github.com/erdilrf/erdilrf-lrf-arduino.git
 ```
 
 **Why a separate repository?** The Arduino Library Manager requires `library.properties` to be at the
