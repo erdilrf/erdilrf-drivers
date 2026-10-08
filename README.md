@@ -16,6 +16,20 @@ TX  55 AA 88 FF FF FF FF 84     single-shot ranging
 RX  55 AA 88 01 FF 27 10 BE     STA=1, 0x2710 = 10000 -> 1000.0 m
 ```
 
+**The modules this documents:** [erdilrf.com](https://erdilrf.com) — ERDI 905 nm laser ranging
+modules, LR1000E2 UART protocol family. Everything in this repository is useful with or without
+buying anything; the protocol is the protocol.
+
+**Also published as:**
+
+* **Arduino library** — [`erdilrf/erdilrf-lrf-arduino`](https://github.com/erdilrf/erdilrf-lrf-arduino).
+  Arduino IDE: Tools → Manage Libraries… → search `ERDILRF_LRF`. PlatformIO:
+  `lib_deps = erdilrf/ERDILRF_LRF`
+* **What a 905 nm rangefinder datasheet does not tell you** —
+  [dev.to/erdilrf](https://dev.to/erdilrf/what-a-905-nm-rangefinder-datasheet-does-not-tell-you-5b0o)
+* **Open-source starting points for laser ranging and LiDAR integration** —
+  [erdilrf.hashnode.dev](https://erdilrf.hashnode.dev/open-source-starting-points-for-laser-ranging-and-lidar-integration)
+
 ---
 
 ## What is in here
