@@ -1,0 +1,28 @@
+# Build and test artefacts
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.eggs/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+env/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+*~
+
+# Local captures that should never be published: they can contain customer
+# serial numbers, site names or coordinates.
+captures/
+*.capture
+*.bin
+*.log

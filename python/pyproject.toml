@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "erdilrf-lrf"
+version = "0.1.0"
+description = "Host-side UART driver for ERDI 905 nm laser rangefinder modules (LR1000E2 protocol family)"
+readme = { file = "../README.md", contentType = "text/markdown" }
+requires-python = ">=3.9"
+license = { text = "MIT" }
+keywords = [
+  "laser-rangefinder", "lidar", "dtof", "905nm", "uart",
+  "embedded", "robotics", "drone", "industrial-automation",
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Manufacturing",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Topic :: Scientific/Engineering :: Interface Engine/Protocol Translator",
+  "Topic :: System :: Hardware :: Hardware Drivers",
+]
+
+# Core framing and decoding are pure standard library on purpose: this code is meant to be
+# readable and testable on any machine, including one with no hardware attached.
+dependencies = []
+
+[project.optional-dependencies]
+serial = ["pyserial>=3.5"]
+dev = ["pytest>=7"]
+
+[project.scripts]
+erdilrf = "erdilrf_lrf.cli:main"
+
+[project.urls]
+Homepage = "https://erdilrf.com"
+Repository = "https://github.com/erdilrf/erdilrf-drivers"
+Documentation = "https://github.com/erdilrf/erdilrf-drivers/blob/main/protocol/PROTOCOL.md"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
