@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "erdilrf-lrf"
-version = "0.1.0"
+version = "0.2.0"
 description = "Host-side UART driver for ERDI 905 nm laser rangefinder modules (LR1000E2 protocol family)"
 readme = { file = "../README.md", contentType = "text/markdown" }
 requires-python = ">=3.9"

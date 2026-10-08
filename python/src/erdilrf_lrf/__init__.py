@@ -35,7 +35,7 @@ from .frames import (
     summarise,
 )
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 __all__ = [
     "BAUD_BY_CODE",
