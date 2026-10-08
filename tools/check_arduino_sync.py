@@ -37,6 +37,18 @@ import urllib.error
 import urllib.request
 from pathlib import Path
 
+# Windows 的中文控制台默认用 GBK 编码。本脚本输出 ✓ / ✗，在 GBK 下会抛
+#   UnicodeEncodeError: 'gbk' codec can't encode character '\u2713'
+# 并让**整个检查崩掉** —— 一个检查器因为自己的输出编码而失败，是最没价值的失败。
+# 这里把标准输出/错误流强制为 UTF-8（errors=replace 保证再也不会因此中断）。
+# 实测踩到：在未设 PYTHONIOENCODING 的中文 Windows 上运行即崩。
+for _stream in (sys.stdout, sys.stderr):
+    try:
+        _stream.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:  # noqa: BLE001 - 旧解释器或已被重定向时忽略
+        pass
+
+
 DEV_HEADER = Path(__file__).resolve().parent.parent / "arduino" / "src" / "ERDILRF_LRF.h"
 DEV_EXAMPLE = (Path(__file__).resolve().parent.parent / "arduino" / "examples"
                / "BasicRanging" / "BasicRanging.ino")
