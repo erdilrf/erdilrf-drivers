@@ -197,7 +197,7 @@ The protocol in this article is implemented, tested and published here:
 * [`protocol/PROTOCOL.md`](https://github.com/erdilrf/erdilrf-drivers/blob/main/protocol/PROTOCOL.md) — every documented command, both checksum ranges, `STA` semantics per command
 * [`protocol/verification.md`](https://github.com/erdilrf/erdilrf-drivers/blob/main/protocol/verification.md) — the checksum arithmetic re-derived independently. All six transmit frames printed in the manual reproduce byte for byte, and that file also records an arithmetic slip I made and corrected rather than quietly fixing
 * `python/` — zero-dependency host driver, 50 tests, no hardware required
-* `arduino/` — header-only C++ driver. **Not compiled**: no C++ toolchain was available where it was written, and `arduino/README.md` says so plainly instead of claiming otherwise
+* `arduino/` — header-only C++ driver, **compile-verified on AVR** (`uno` + `nanoatmega328`, zero warnings from the driver under `-Wall -Wextra`). `arduino-build/` reproduces the build with `pio run`. Behaviour on real hardware is **still unverified** — no board, no module
 
 Primary source: **LR1000E2 User Manual v1.2, 2025.10, ERDI TECH LTD**, section 8
 (SHA-256 `ab396d61a08d1d4d3e89ced7f77156096250697dc296d6fefffce16b010701a9`).

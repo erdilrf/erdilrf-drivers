@@ -27,7 +27,8 @@ RX  55 AA 88 01 FF 27 10 BE     STA=1, 0x2710 = 10000 -> 1000.0 m
 | [`docs/what-the-datasheet-does-not-say.md`](docs/what-the-datasheet-does-not-say.md) | Four gaps in the published datasheet — parity, wire colours, enable polarity, an incomplete response frame — and how to work around each |
 | [`docs/open-source-laser-ranging-projects.md`](docs/open-source-laser-ranging-projects.md) | Categorised open-source projects for ranging and LiDAR integration. Every link verified before publication |
 | [`python/`](python/) | Host driver. **Zero core dependencies** — pure standard library. `pyserial` is optional |
-| [`arduino/`](arduino/) | Header-only C++ driver plus a minimal `.ino` example |
+| [`arduino/`](arduino/) | Arduino library (header-only) + `library.properties` / `library.json` metadata, plus a minimal `.ino` example |
+| [`arduino-build/`](arduino-build/) | PlatformIO project that **proves the Arduino driver compiles** on AVR. `cd arduino-build && pio run` |
 | [`docs/WIRING.md`](docs/WIRING.md) | Pinout, level shifting, and the two wiring mistakes that account for most "it does not work" reports |
 
 ## Quick start (Python)
@@ -133,12 +134,15 @@ reproduced byte for byte, and that each printed checksum is reproducible from th
 
 ### What the tests do *not* cover
 
-The **Arduino/C++ driver could not be compiled here** — this machine has no C++ toolchain (`g++`,
-`clang++`, `cl`, `cmake` all absent). Its constants and checksum arithmetic are cross-checked against
-the Python implementation, but compilation and on-hardware behaviour are **unverified**, and
-[`arduino/README.md`](arduino/README.md) says so explicitly. No Python test has ever run against a
-physical module either; the framing is verified against the manual and against itself, not against
-hardware.
+The **Arduino/C++ driver is compile-verified but has never run against a physical module.**
+`arduino-build/` is a PlatformIO project that builds the header for `uno` and `nanoatmega328`
+(ATmega328P — 16-bit `int`, 2 KB RAM, no FPU) with `-Wall -Wextra` and **zero warnings from this
+driver**; the example sketch compiles as well. Its constants are also cross-checked against the Python
+implementation by `python/tests/test_arduino_parity.py`.
+
+What remains unverified is **behaviour on real hardware** — no test in this repository has ever run
+against a real module. The framing is verified against the manual and against itself, not against
+silicon. See [`arduino/README.md`](arduino/README.md) for the exact numbers and how to reproduce them.
 
 ## Who this is for
 

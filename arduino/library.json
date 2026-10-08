@@ -1,0 +1,35 @@
+{
+  "name": "ERDILRF LRF",
+  "version": "0.1.0",
+  "description": "Host driver for ERDI 905 nm laser rangefinder modules (LR1000E2 UART protocol family). Implements the documented 8-byte UART frame protocol with the two different checksum ranges used by transmit and response frames.",
+  "keywords": [
+    "lidar",
+    "laser-rangefinder",
+    "rangefinder",
+    "dtof",
+    "905nm",
+    "uart",
+    "distance",
+    "sensor"
+  ],
+  "authors": [
+    {
+      "name": "ERDILRF",
+      "email": "dev@erdilrf.com",
+      "url": "https://erdilrf.com",
+      "maintainer": true
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/erdilrf/erdilrf-drivers.git"
+  },
+  "homepage": "https://github.com/erdilrf/erdilrf-drivers",
+  "license": "MIT",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "headers": "ERDILRF_LRF.h",
+  "export": {
+    "include": ["src", "examples", "README.md"]
+  }
+}

@@ -3,22 +3,56 @@
 `ERDILRF_LRF.h` is a header-only driver for the ERDI 905 nm rangefinder UART protocol, plus one
 example sketch in [`examples/BasicRanging/`](examples/BasicRanging/BasicRanging.ino).
 
-## ⚠️ Verification status — read this before trusting it
+## Verification status — read this before trusting it
 
 | Checked | How |
 |---|---|
 | Function codes, header bytes, frame length | ✅ Cross-checked against the tested Python implementation by `python/tests/test_arduino_parity.py` |
 | Transmit frames reproduce the manufacturer's printed bytes | ✅ Same test — the C++ checksum arithmetic is re-implemented and compared with all four published frames |
 | Both checksum rules present and distinct | ✅ Same test |
-| **The C++ compiles** | ❌ **Not verified.** The machine where this repository was authored has **no C++ toolchain** — no `g++`, `gcc`, `clang++`, `cl`, or `cmake` on `PATH`, and no Visual Studio install. |
+| **The C++ compiles** | ✅ **Verified on AVR — see below** |
 | **The receive state machine behaves on hardware** | ❌ **Not verified.** No module and no board. |
 
-The Python side of this repository carries 50 passing tests. The C++ side carries a constant-level
-parity check and nothing more. Stating that plainly is the point: an unqualified "tested" badge on
-code nobody compiled would be worth less than no badge at all.
+### Compilation evidence
 
-**If you compile it and it fails, that is a bug report this project wants.** Please include the
-compiler, version, board, and the exact error.
+`arduino-build/` is a PlatformIO project whose only job is to prove this header compiles. Reproduce it:
+
+```bash
+cd arduino-build && pio run
+```
+
+Last verified run (PlatformIO Core 6.2.0, `framework-arduino-avr` 5.4.0, `toolchain-atmelavr`
+1.70300):
+
+```text
+uno            SUCCESS    RAM 14.3% (293/2048 B)   Flash 16.5% (5312/32256 B)
+nanoatmega328  SUCCESS    RAM 14.3% (293/2048 B)   Flash 17.3% (5312/30720 B)
+2 succeeded
+```
+
+The example sketch compiles too (it pulls in `SoftwareSerial` on AVR):
+
+```text
+pio ci --board=uno --lib=arduino arduino/examples/BasicRanging/BasicRanging.ino
+uno  SUCCESS   RAM 16.5% (337/2048 B)   Flash 18.8% (6076/32256 B)
+```
+
+**AVR was chosen deliberately**: 16-bit `int`, 2 KB of RAM, no FPU. If it builds there it is very
+unlikely to break on a 32-bit MCU. `build_flags = -Wall -Wextra` is on, and the build reports
+**zero warnings originating from this driver** — the 8 warnings that appear all come from the Arduino
+core's own `new.cpp` (`unused parameter 'tag'`).
+
+`arduino-build/src/main.cpp` additionally calls every public member and re-checks the six published
+checksums **on-target at runtime**, printing `FAILURES=0` on a healthy build. That is a real self-test,
+not decoration.
+
+The Python side of this repository carries 50 passing tests. The C++ side now carries compilation
+proof plus constant-level parity. **Neither has ever run against a physical module** — the framing is
+verified against the manual and against itself, not against hardware. Stating that plainly is the
+point.
+
+**If you compile it and it fails on your toolchain, that is a bug report this project wants.** Please
+include the compiler, version, board, and the exact error.
 
 ## What was mechanically verified
 

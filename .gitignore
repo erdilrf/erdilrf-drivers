@@ -12,6 +12,11 @@ dist/
 venv/
 env/
 
+# PlatformIO: toolchains and build products are large and machine-specific.
+# platformio.ini and src/ ARE tracked — the build must be reproducible from the repo,
+# but the ~200 MB of downloaded AVR toolchain and the .elf/.hex outputs must not be.
+.pio/
+
 # Editors / OS
 .vscode/
 .idea/

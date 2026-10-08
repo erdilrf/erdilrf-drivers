@@ -4,14 +4,24 @@ verified Python implementation and with the manufacturer's printed frames.
 
 Why this test exists
 --------------------
-No C++ toolchain exists on the machine where this repository was authored, so the Arduino driver
-could **not** be compiled there. Rather than ship an unverifiable file with a disclaimer, this test
-verifies the part that can be verified mechanically: the header's function codes, its checksum
+This test was written while the authoring machine had **no C++ toolchain**, so the Arduino driver
+could not be compiled at that time. Rather than ship an unverifiable file with a disclaimer, this
+test verified the part that could be checked mechanically: the header's function codes, its checksum
 formula, and the frames it would emit.
 
-It does NOT verify that the C++ compiles, or that its state machine behaves. Those remain
-unverified and are labelled as such in `arduino/README.md`. Claiming otherwise would be the exact
-failure mode this project is trying to avoid.
+The toolchain situation was later resolved by installing PlatformIO, and the driver now **does
+compile** — see `arduino-build/` and the evidence table in `arduino/README.md`. This test is kept
+because it still guards a different thing:
+
+  * the C++ build proves the header is *syntactically and semantically valid C++*;
+  * this test proves the header's *constants and arithmetic have not drifted* from the verified
+    Python reference.
+
+Those are independent failure modes. A header can compile perfectly while carrying a wrong function
+code, and this test is what catches that.
+
+It still does NOT verify behaviour on real hardware. That remains unverified and is labelled as such
+in `arduino/README.md`.
 
 Run:  python -m pytest tests/test_arduino_parity.py -q
 """
@@ -28,7 +38,30 @@ import pytest  # noqa: E402
 
 from erdilrf_lrf import frames as F  # noqa: E402
 
-HEADER = Path(__file__).resolve().parent.parent.parent / "arduino" / "ERDILRF_LRF.h"
+ARDUINO_DIR = Path(__file__).resolve().parent.parent.parent / "arduino"
+
+# 头文件可能位于 arduino/ 根或 arduino/src/（Arduino 1.5+ 库布局要求 src/）。
+# ★ 这里踩过一次 ★：头文件从 arduino/ 移到 arduino/src/ 后，本测试因为只查旧路径而
+#   pytest.skip，整套守卫【静默脱岗】—— 测试数从 50 passed 变成 44 passed + 6 skipped，
+#   而「测试还在跑」的表面现象让人不会去看。
+# 所以：多候选路径 + 找不到就 **fail 而不是 skip**。
+# 这个头文件是本仓库的一部分，它不存在就是仓库坏了，不是「环境不具备所以跳过」。
+HEADER_CANDIDATES = [
+    ARDUINO_DIR / "src" / "ERDILRF_LRF.h",
+    ARDUINO_DIR / "ERDILRF_LRF.h",
+]
+
+
+def _resolve_header() -> Path:
+    for c in HEADER_CANDIDATES:
+        if c.exists():
+            return c
+    raise AssertionError(
+        "ERDILRF_LRF.h not found. Looked in: "
+        + ", ".join(str(c) for c in HEADER_CANDIDATES)
+        + " — the header is part of this repository, so this is a failure, not a skip. "
+          "If you moved it, update HEADER_CANDIDATES.")
+
 
 # Frames the manufacturer prints in section 8 of the LR1000E2 manual.
 MANUAL_TX = {
@@ -40,9 +73,8 @@ MANUAL_TX = {
 
 
 def read_header() -> str:
-    if not HEADER.exists():
-        pytest.skip(f"arduino header not present at {HEADER}")
-    return HEADER.read_text(encoding="utf-8")
+    # 不再 skip —— 见 _resolve_header() 的注释：静默跳过让 6 个守卫悄悄脱岗过。
+    return _resolve_header().read_text(encoding="utf-8")
 
 
 def cpp_constants() -> dict[str, int]:
