@@ -11,9 +11,14 @@ This library is published in a **dedicated repository** so it can be indexed:
 
 Search for `ERDILRF_LRF` in **Tools → Manage Libraries…**
 
-With **PlatformIO**, install from Git — verified working by actually resolving and compiling it
-(version `0.2.0+sha.6f2a7f4`). The registry-name form `erdilrf/ERDILRF_LRF` does **not** work yet,
-because the library is not in the PlatformIO Registry:
+With **PlatformIO**, install it by name from the PlatformIO Registry — verified working by actually
+resolving and compiling it (`ERDILRF_LRF@0.2.1`):
+
+```ini
+lib_deps = erdilrf/ERDILRF_LRF
+```
+
+Installing from Git also works and tracks the repository rather than a release:
 
 ```ini
 lib_deps = https://github.com/erdilrf/erdilrf-lrf-arduino.git
