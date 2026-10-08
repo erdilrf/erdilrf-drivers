@@ -24,6 +24,8 @@ RX  55 AA 88 01 FF 27 10 BE     STA=1, 0x2710 = 10000 -> 1000.0 m
 |---|---|
 | [`protocol/PROTOCOL.md`](protocol/PROTOCOL.md) | Full 8-byte UART frame reference: every documented command, both checksum ranges, distance and angle decoding |
 | [`protocol/verification.md`](protocol/verification.md) | The checksum arithmetic, re-derived independently of the manufacturer's printed values |
+| [`docs/what-the-datasheet-does-not-say.md`](docs/what-the-datasheet-does-not-say.md) | Four gaps in the published datasheet — parity, wire colours, enable polarity, an incomplete response frame — and how to work around each |
+| [`docs/open-source-laser-ranging-projects.md`](docs/open-source-laser-ranging-projects.md) | Categorised open-source projects for ranging and LiDAR integration. Every link verified before publication |
 | [`python/`](python/) | Host driver. **Zero core dependencies** — pure standard library. `pyserial` is optional |
 | [`arduino/`](arduino/) | Header-only C++ driver plus a minimal `.ino` example |
 | [`docs/WIRING.md`](docs/WIRING.md) | Pinout, level shifting, and the two wiring mistakes that account for most "it does not work" reports |
