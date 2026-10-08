@@ -3,6 +3,35 @@
 `ERDILRF_LRF.h` is a header-only driver for the ERDI 905 nm rangefinder UART protocol, plus one
 example sketch in [`examples/BasicRanging/`](examples/BasicRanging/BasicRanging.ino).
 
+## 📦 Installable from the Arduino Library Manager
+
+This library is published in a **dedicated repository** so it can be indexed:
+
+**→ [github.com/erdilrf/erdilrf-lrf-arduino](https://github.com/erdilrf/erdilrf-lrf-arduino)**
+
+Search for `ERDILRF_LRF` in **Tools → Manage Libraries…**, or with PlatformIO:
+
+```ini
+lib_deps = erdilrf/ERDILRF_LRF
+```
+
+**Why a separate repository?** The Arduino Library Manager requires `library.properties` to be at the
+**root of the repository**. This combined repository is a monorepo, so that is impossible here —
+putting `library.properties` at this repository's root would also make the build-verification sketch
+under `arduino-build/src/` get compiled as library source.
+
+**Which copy is authoritative?** The files under `arduino/` here are the **development copy**; the
+dedicated repository is the **distribution artifact**. They are kept identical by hand at release
+time, which is a known drift risk — run the check to detect divergence:
+
+```bash
+python tools/check_arduino_sync.py
+```
+
+It compares the SHA-256 of `arduino/src/ERDILRF_LRF.h` here against the copy fetched from the
+distribution repository, and fails loudly on divergence rather than letting the two quietly differ.
+
+
 ## Verification status — read this before trusting it
 
 | Checked | How |
