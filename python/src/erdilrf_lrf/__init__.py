@@ -11,6 +11,8 @@ stated checksum rule before release.
 
 from __future__ import annotations
 
+from .device import Rangefinder, SerialTransport
+
 from .frames import (
     BAUD_BY_CODE,
     BAUD_CODES,
@@ -38,6 +40,8 @@ from .frames import (
 __version__ = "0.2.0"
 
 __all__ = [
+    "Rangefinder",
+    "SerialTransport",
     "BAUD_BY_CODE",
     "BAUD_CODES",
     "CMD_ANGLE",
