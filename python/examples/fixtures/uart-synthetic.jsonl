@@ -1,0 +1,8 @@
+{"origin":"synthetic","direction":"command","hex":"55 AA 88"}
+{"origin":"synthetic","direction":"response","hex":"55 AA 88 01"}
+{"origin":"synthetic","direction":"command","hex":"FF FF FF FF 84"}
+{"origin":"synthetic","direction":"response","hex":"FF 27 10 BE"}
+{"origin":"synthetic","direction":"command","hex":"55 AA 88 FF FF FF FF 84 55 AA 8E FF FF FF FF 8A"}
+{"origin":"synthetic","direction":"response","hex":"55 AA 88 01 FF 27 10 BE 55 AA 88 01 FF 27 10 BE"}
+{"origin":"synthetic","direction":"response","hex":"55 AA 88 01 FF 27 10 BF"}
+{"origin":"synthetic","direction":"response","hex":"55 AA 88 01 FF 27 10 BE"}
