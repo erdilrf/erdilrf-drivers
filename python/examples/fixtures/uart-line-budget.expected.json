@@ -1,0 +1,41 @@
+{
+  "results": [
+    {
+      "bits_per_character": 10,
+      "device_timing_and_operational_feasibility": "not_evaluated",
+      "name": "hypothetical_100_eight_byte_packets_each_direction_full_8N1",
+      "required_interval_ratio_lower_bound": "5/6",
+      "required_wire_seconds_lower_bound": "5/6",
+      "rx_interval_ratio": "5/6",
+      "rx_wire_seconds": "5/6",
+      "tx_interval_ratio": "5/6",
+      "tx_wire_seconds": "5/6",
+      "wire_time_strictly_exceeds_interval": false
+    },
+    {
+      "bits_per_character": 10,
+      "device_timing_and_operational_feasibility": "not_evaluated",
+      "name": "same_counts_shared_half_duplex_wire",
+      "required_interval_ratio_lower_bound": "5/3",
+      "required_wire_seconds_lower_bound": "5/3",
+      "rx_interval_ratio": "5/6",
+      "rx_wire_seconds": "5/6",
+      "tx_interval_ratio": "5/6",
+      "tx_wire_seconds": "5/6",
+      "wire_time_strictly_exceeds_interval": true
+    },
+    {
+      "bits_per_character": 12,
+      "device_timing_and_operational_feasibility": "not_evaluated",
+      "name": "same_counts_full_duplex_8E2_no_wire_headroom",
+      "required_interval_ratio_lower_bound": "1/1",
+      "required_wire_seconds_lower_bound": "1/1",
+      "rx_interval_ratio": "1/1",
+      "rx_wire_seconds": "1/1",
+      "tx_interval_ratio": "1/1",
+      "tx_wire_seconds": "1/1",
+      "wire_time_strictly_exceeds_interval": false
+    }
+  ],
+  "schema_version": 1
+}

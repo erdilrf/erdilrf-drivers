@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "name": "hypothetical_100_eight_byte_packets_each_direction_full_8N1",
+      "baud": 9600,
+      "data_bits": 8,
+      "parity": "none",
+      "stop_bits": 1,
+      "duplex": "full",
+      "interval_ms": 1000,
+      "tx_bytes": 800,
+      "rx_bytes": 800
+    },
+    {
+      "name": "same_counts_shared_half_duplex_wire",
+      "baud": 9600,
+      "data_bits": 8,
+      "parity": "none",
+      "stop_bits": 1,
+      "duplex": "half",
+      "interval_ms": 1000,
+      "tx_bytes": 800,
+      "rx_bytes": 800
+    },
+    {
+      "name": "same_counts_full_duplex_8E2_no_wire_headroom",
+      "baud": 9600,
+      "data_bits": 8,
+      "parity": "even",
+      "stop_bits": 2,
+      "duplex": "full",
+      "interval_ms": 1000,
+      "tx_bytes": 800,
+      "rx_bytes": 800
+    }
+  ]
+}
