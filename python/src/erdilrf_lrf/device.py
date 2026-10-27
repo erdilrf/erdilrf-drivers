@@ -118,6 +118,12 @@ class Rangefinder:
 
     # ---------------------------------------------------------------- plumbing
 
+    def _write_command(self, command: bytes) -> None:
+        accepted = self.transport.write(command)
+        if type(accepted) is not int or accepted != len(command):
+            # A prefix may already be on the wire; retrying could duplicate a command.
+            raise OSError("transport did not report a complete command write; no automatic retry")
+
     def _fill(self, deadline: float) -> None:
         """Block until at least one frame is pending, or the deadline passes."""
         while not self._pending:
@@ -170,7 +176,7 @@ class Rangefinder:
     def _exchange(self, command: bytes, expect: Iterable[int], timeout: float | None = None) -> F.Frame:
         budget = self.timeout if timeout is None else timeout
         self._flush()
-        self.transport.write(command)
+        self._write_command(command)
         frame = self._pump(time.monotonic() + budget, expect)
         if frame is None:
             raise DeviceTimeout(
@@ -191,7 +197,7 @@ class Rangefinder:
         return F.decode_distance_or_none(frame)
 
     def start_continuous(self) -> None:
-        self.transport.write(F.CMD_CONTINUOUS)
+        self._write_command(F.CMD_CONTINUOUS)
 
     def stop_continuous(self, *, timeout: float | None = None) -> bool:
         frame = self._exchange(F.CMD_STOP, (F.FUNC_STOP,), timeout)
@@ -263,7 +269,7 @@ class Rangefinder:
         `55`), so this library does not invent a frame layout to validate against. See
         PROTOCOL.md section 3.6. The manufacturer warns against leaving it enabled for long periods.
         """
-        self.transport.write(F.CMD_LD_ON if enable else F.CMD_LD_OFF)
+        self._write_command(F.CMD_LD_ON if enable else F.CMD_LD_OFF)
 
     def __enter__(self) -> "Rangefinder":
         return self
